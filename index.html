@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Workout Week</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#111111" />
+</head>
+<body>
+  <main class="app">
+    <header>
+      <h1>Workout Week</h1>
+      <div class="topline">
+        <label>Week of <input id="weekOf" type="date" /></label>
+        <span id="completion">0% complete</span>
+      </div>
+      <div class="tabs">
+        <button id="tabDaily" class="active">Daily Logger</button>
+        <button id="tabHistory" class="ghost">History & Summary</button>
+      </div>
+    </header>
+
+    <section id="dailyView">
+      <section id="days" class="days"></section>
+
+      <section class="meta">
+        <input id="sleep" type="number" step="0.1" min="0" max="24" placeholder="Sleep avg (hrs)" />
+        <input id="soreness" type="number" min="0" max="10" placeholder="Soreness (0-10)" />
+        <input id="stress" type="number" min="0" max="10" placeholder="Stress (0-10)" />
+        <input id="bestJump" type="text" placeholder="Best jump this week (in/cm)" />
+      </section>
+    </section>
+
+    <section id="historyView" class="hidden">
+      <div class="summary3">
+        <div class="card"><small>Daily avg mins</small><strong id="sumDailyMins">-</strong></div>
+        <div class="card"><small>Weekly completion avg</small><strong id="sumWeeklyCompletion">-</strong></div>
+        <div class="card"><small>Monthly workouts</small><strong id="sumMonthlyWorkouts">-</strong></div>
+      </div>
+
+      <div class="history-controls">
+        <label>Select week
+          <select id="weekSelect"></select>
+        </label>
+      </div>
+
+      <div id="weekDetails" class="week-details"></div>
+      <div id="monthTable" class="week-details"></div>
+    </section>
+
+    <footer>
+      <button id="archive">Save Week to History</button>
+      <button id="export">Export Week</button>
+      <button id="import" class="ghost">Import Week JSON</button>
+      <input id="importFile" type="file" accept="application/json" class="hidden" />
+      <button id="reset" class="ghost">Reset</button>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+    }
+  </script>
+</body>
+</html>
