@@ -14,8 +14,12 @@ input,textarea,select{width:100%;padding:10px;border:1px solid var(--line);borde
 .day{padding:14px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .plan{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.45}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
-.note{margin-top:8px;min-height:90px}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field span{font-size:13px;color:#555;font-weight:600}
+.done-row{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fafbff;font-weight:600}
+.done-row input{width:22px;height:22px}
+.note{margin-top:0;min-height:110px}
 .meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}
 .summary3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .card small{display:block;color:var(--muted)}
@@ -24,9 +28,15 @@ input,textarea,select{width:100%;padding:10px;border:1px solid var(--line);borde
 .week-details{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:10px;overflow:auto}
 .week-details table{width:100%;border-collapse:collapse}
 .week-details th,.week-details td{border-bottom:1px solid var(--line);padding:8px;text-align:left;font-size:14px;vertical-align:top}
-footer{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 30px}
-button{padding:10px 14px;border:1px solid #111;border-radius:10px;background:#111;color:#fff;cursor:pointer}
+footer{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0 30px;position:sticky;bottom:0;background:var(--bg);padding:8px 0}
+button{padding:11px 14px;border:1px solid #111;border-radius:10px;background:#111;color:#fff;cursor:pointer;font-weight:600}
 button.ghost{background:#fff;color:#111;border-color:var(--line)}
 button.active{background:#111;color:#fff;border-color:#111}
 .hidden{display:none}
-@media (max-width:620px){.grid,.meta,.summary3{grid-template-columns:1fr}.topline,.picker-row{flex-direction:column;align-items:flex-start}}
+@media (max-width:620px){
+  .field-grid,.meta,.summary3{grid-template-columns:1fr}
+  .topline,.picker-row{flex-direction:column;align-items:flex-start}
+  .day{padding:12px}
+  input,textarea,select,button{font-size:18px}
+  .plan{font-size:15px}
+}
