@@ -10,6 +10,7 @@ const PLAN=[
 
 const KEY='workout-minimal-v6';
 const HIST_KEY='workout-history-v1';
+const DAY_HIST_KEY='workout-day-history-v1';
 let selectedDayIndex=0;
 
 const completionEl=document.getElementById('completion');
@@ -28,6 +29,8 @@ const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||blank()}catch{
 const save=(s)=>localStorage.setItem(KEY,JSON.stringify(s));
 const loadHist=()=>{try{return JSON.parse(localStorage.getItem(HIST_KEY))||[]}catch{return []}};
 const saveHist=(h)=>localStorage.setItem(HIST_KEY,JSON.stringify(h));
+const loadDayHist=()=>{try{return JSON.parse(localStorage.getItem(DAY_HIST_KEY))||[]}catch{return []}};
+const saveDayHist=(h)=>localStorage.setItem(DAY_HIST_KEY,JSON.stringify(h));
 const clone=(x)=>JSON.parse(JSON.stringify(x));
 
 function render(){
@@ -94,8 +97,40 @@ function bindMeta(s){
   });
 }
 
+function isoWeekStart(dateStr){
+  const d = new Date((dateStr||todayISO())+'T00:00:00');
+  const day = d.getDay();
+  const diff = d.getDate() - (day === 0 ? 6 : day - 1);
+  d.setDate(diff);
+  return d.toISOString().slice(0,10);
+}
+
+function saveCurrentDayToHistory(){
+  const s = load();
+  const d = s.days[selectedDayIndex];
+  const entry = {
+    weekOf: isoWeekStart(d.logDate || todayISO()),
+    templateDay: d.day,
+    title: d.title,
+    logDate: d.logDate || todayISO(),
+    done: !!d.done,
+    startTime: d.startTime || '',
+    duration: d.duration || '',
+    knee: d.knee || '',
+    actual: d.actual || '',
+    note: d.note || '',
+    savedAt: new Date().toISOString()
+  };
+  const hist = loadDayHist();
+  hist.unshift(entry);
+  saveDayHist(hist.slice(0, 500));
+  alert(`Saved ${d.day} (${entry.logDate}) to day history.`);
+  renderHistory();
+}
+
 function bindActions(){
   // today button removed by design: user explicitly picks one of 7 frames.
+  document.getElementById('saveDay').onclick=saveCurrentDayToHistory;
   document.getElementById('reset').onclick=()=>{localStorage.removeItem(KEY); selectedDayIndex=0; render();};
   document.getElementById('export').onclick=()=>downloadJson(load(), `workout-${load().weekOf}.json`);
   document.getElementById('archive').onclick=archiveCurrentWeek;
@@ -143,19 +178,23 @@ function importWeekFile(e){
 
 function renderHistory(){
   const current=clone(load());
-  const hist=loadHist();
-  const all=[current,...hist];
+  const weekHist=loadHist();
+  const dayHist=loadDayHist();
+  const all=[current,...weekHist];
 
   const dailyMins=[]; const weeklyCompletion=[];
   all.forEach(w=>{
     weeklyCompletion.push((w.days.filter(d=>d.done).length/7)*100);
     w.days.forEach(d=>{ const m=Number(d.duration); if(!Number.isNaN(m)&&m>0) dailyMins.push(m); });
   });
+  dayHist.forEach(d=>{ const m=Number(d.duration); if(!Number.isNaN(m)&&m>0) dailyMins.push(m); });
+
   document.getElementById('sumDailyMins').textContent=dailyMins.length?(dailyMins.reduce((a,b)=>a+b,0)/dailyMins.length).toFixed(1):'-';
   document.getElementById('sumWeeklyCompletion').textContent=weeklyCompletion.length?`${(weeklyCompletion.reduce((a,b)=>a+b,0)/weeklyCompletion.length).toFixed(0)}%`:'-';
 
   const monthCount={};
   all.forEach(w=>{ const m=(w.weekOf||'').slice(0,7)||'unknown'; monthCount[m]=(monthCount[m]||0)+w.days.filter(d=>d.done).length; });
+  dayHist.forEach(d=>{ const m=(d.weekOf||'').slice(0,7)||'unknown'; monthCount[m]=(monthCount[m]||0)+(d.done?1:0); });
   const months=Object.entries(monthCount).sort((a,b)=>a[0]<b[0]?1:-1);
   document.getElementById('sumMonthlyWorkouts').textContent=months[0]?.[1]??0;
 
@@ -170,8 +209,19 @@ function renderHistory(){
   sel.onchange=()=>renderWeekDetails(all[Number(sel.value)]);
   renderWeekDetails(all[Number(sel.value||0)]);
 
+  const weekBuckets={};
+  dayHist.forEach(d=>{ if(!weekBuckets[d.weekOf]) weekBuckets[d.weekOf]=[]; weekBuckets[d.weekOf].push(d); });
+  const weekRows=Object.entries(weekBuckets)
+    .sort((a,b)=>a[0]<b[0]?1:-1)
+    .map(([w,arr])=>`<tr><td>${w}</td><td>${arr.length}</td><td>${arr.filter(x=>x.done).length}</td></tr>`)
+    .join('') || '<tr><td colspan="3">No day history yet</td></tr>';
+
   const monthRows=months.map(([m,c])=>`<tr><td>${m}</td><td>${c}</td></tr>`).join('')||'<tr><td colspan="2">No history yet</td></tr>';
-  document.getElementById('monthTable').innerHTML=`<h3>Monthly Summary</h3><table><thead><tr><th>Month</th><th>Completed workouts</th></tr></thead><tbody>${monthRows}</tbody></table>`;
+  document.getElementById('monthTable').innerHTML=`
+    <h3>Weekly Output (from saved days)</h3>
+    <table><thead><tr><th>Week (Mon)</th><th>Saved day logs</th><th>Done logs</th></tr></thead><tbody>${weekRows}</tbody></table>
+    <h3 style="margin-top:12px">Monthly Summary</h3>
+    <table><thead><tr><th>Month</th><th>Completed workouts</th></tr></thead><tbody>${monthRows}</tbody></table>`;
 }
 
 function renderWeekDetails(w){
