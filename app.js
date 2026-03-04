@@ -14,7 +14,6 @@ let selectedDayIndex=0;
 
 const completionEl=document.getElementById('completion');
 const daySelectEl=document.getElementById('daySelect');
-const dayChipsEl=document.getElementById('dayChips');
 const focusCardEl=document.getElementById('focusCard');
 
 const todayISO=()=>new Date().toISOString().slice(0,10);
@@ -46,16 +45,12 @@ function render(){
 
 function renderDayPicker(s){
   daySelectEl.innerHTML='';
-  dayChipsEl.innerHTML='';
   s.days.forEach((d,i)=>{
     const label=`${d.day} · ${d.title}`;
-    const opt=document.createElement('option'); opt.value=i; opt.textContent=label; daySelectEl.appendChild(opt);
-
-    const chip=document.createElement('button');
-    chip.className='chip'+(i===selectedDayIndex?' active':'');
-    chip.textContent=d.day + (d.done?' ✅':'');
-    chip.onclick=()=>{ selectedDayIndex=i; render(); };
-    dayChipsEl.appendChild(chip);
+    const opt=document.createElement('option');
+    opt.value=i;
+    opt.textContent=label;
+    daySelectEl.appendChild(opt);
   });
   if(selectedDayIndex>s.days.length-1) selectedDayIndex=0;
   daySelectEl.value=String(selectedDayIndex);
@@ -100,13 +95,7 @@ function bindMeta(s){
 }
 
 function bindActions(){
-  document.getElementById('todayBtn').onclick=()=>{
-    const s=load();
-    const i=s.days.findIndex(d=>d.logDate===todayISO());
-    selectedDayIndex=i>=0?i:0;
-    render();
-  };
-
+  // today button removed by design: user explicitly picks one of 7 frames.
   document.getElementById('reset').onclick=()=>{localStorage.removeItem(KEY); selectedDayIndex=0; render();};
   document.getElementById('export').onclick=()=>downloadJson(load(), `workout-${load().weekOf}.json`);
   document.getElementById('archive').onclick=archiveCurrentWeek;
