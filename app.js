@@ -69,14 +69,16 @@ function renderFocusDay(s, idx){
     <div class="plan"><b>Session hint:</b> ${d.hint}</div>
     <div class="plan"><b>Template duration:</b> ${d.time}</div>
 
-    <div class="field-grid">
+    <div class="date-done-row">
       <label class="field"><span>Real training date</span><input id="logDate" type="date" value="${d.logDate||todayISO()}" title="Real date you trained"></label>
+      <label class="done-row"><input id="doneBox" type="checkbox" ${d.done?'checked':''}/> Done</label>
+    </div>
+
+    <div class="field-grid">
       <label class="field"><span>Log time</span><input id="startTime" type="time" value="${d.startTime||''}" title="Log time"></label>
       <label class="field"><span>Training minutes</span><input id="duration" type="number" min="0" placeholder="e.g. 75" value="${d.duration||''}"></label>
       <label class="field"><span>Knee pain (0–10)</span><input id="knee" type="number" min="0" max="10" placeholder="0-10" value="${d.knee||''}"></label>
     </div>
-
-    <label class="done-row"><input id="doneBox" type="checkbox" ${d.done?'checked':''}/> Mark this session done</label>
 
     <label class="field" style="margin-top:8px"><span>What you actually did</span><input id="actual" type="text" placeholder="Short summary" value="${d.actual||''}"></label>
     <label class="field" style="margin-top:8px"><span>Daily log details</span><textarea id="note" class="note" placeholder="Drills, feel, pain notes, what to change">${d.note||''}</textarea></label>

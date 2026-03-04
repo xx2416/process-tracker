@@ -14,10 +14,11 @@ input,textarea,select{width:100%;padding:10px;border:1px solid var(--line);borde
 .day{padding:14px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .plan{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.45}
-.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+.date-done-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-top:12px}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
 .field{display:flex;flex-direction:column;gap:6px}
 .field span{font-size:13px;color:#555;font-weight:600}
-.done-row{display:flex;align-items:center;gap:10px;margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fafbff;font-weight:600}
+.done-row{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:10px;background:#fafbff;font-weight:700;white-space:nowrap}
 .done-row input{width:22px;height:22px}
 .note{margin-top:0;min-height:110px}
 .meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:14px}
@@ -34,7 +35,7 @@ button.ghost{background:#fff;color:#111;border-color:var(--line)}
 button.active{background:#111;color:#fff;border-color:#111}
 .hidden{display:none}
 @media (max-width:620px){
-  .field-grid,.meta,.summary3{grid-template-columns:1fr}
+  .date-done-row,.field-grid,.meta,.summary3{grid-template-columns:1fr}
   .topline,.picker-row{flex-direction:column;align-items:flex-start}
   .day{padding:12px}
   input,textarea,select,button{font-size:18px}
