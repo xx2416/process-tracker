@@ -8,7 +8,7 @@ const PLAN=[
   {day:'D7',title:'Tempo #2/Zone2 + Durability',time:'~30–75m total',hint:'Easy tempo or Zone2. Lateral work, adductor, hamstring/back extension, calf/tib, core.'},
 ];
 
-const KEY='workout-minimal-v5';
+const KEY='workout-minimal-v6';
 const HIST_KEY='workout-history-v1';
 let selectedDayIndex=0;
 
@@ -17,9 +17,11 @@ const daySelectEl=document.getElementById('daySelect');
 const dayChipsEl=document.getElementById('dayChips');
 const focusCardEl=document.getElementById('focusCard');
 
+const todayISO=()=>new Date().toISOString().slice(0,10);
+
 const blank=()=>({
-  weekOf:new Date().toISOString().slice(0,10),
-  days:PLAN.map(p=>({...p,done:false,date:'',startTime:'',duration:'',knee:'',actual:'',note:''})),
+  weekOf:todayISO(),
+  days:PLAN.map(p=>({...p,done:false,logDate:todayISO(),startTime:'',duration:'',knee:'',actual:'',note:''})),
   meta:{sleep:'',soreness:'',stress:'',bestJump:''}
 });
 
@@ -29,13 +31,9 @@ const loadHist=()=>{try{return JSON.parse(localStorage.getItem(HIST_KEY))||[]}ca
 const saveHist=(h)=>localStorage.setItem(HIST_KEY,JSON.stringify(h));
 const clone=(x)=>JSON.parse(JSON.stringify(x));
 
-function plusDays(isoDate, days){ const d=new Date(isoDate+'T00:00:00'); d.setDate(d.getDate()+days); return d.toISOString().slice(0,10); }
-
-function syncDayDates(state){ state.days.forEach((d,i)=>{ if(!d.date) d.date=plusDays(state.weekOf,i); }); }
-
 function render(){
   const s=load();
-  syncDayDates(s);
+  s.days.forEach(d=>{ if(!d.logDate) d.logDate=todayISO(); });
   save(s);
 
   renderDayPicker(s);
@@ -50,12 +48,12 @@ function renderDayPicker(s){
   daySelectEl.innerHTML='';
   dayChipsEl.innerHTML='';
   s.days.forEach((d,i)=>{
-    const label=`${d.day} · ${d.date} · ${d.title}`;
+    const label=`${d.day} · ${d.title}`;
     const opt=document.createElement('option'); opt.value=i; opt.textContent=label; daySelectEl.appendChild(opt);
 
     const chip=document.createElement('button');
     chip.className='chip'+(i===selectedDayIndex?' active':'');
-    chip.textContent=`${d.day}${d.done?' ✅':''}`;
+    chip.textContent=d.day + (d.done?' ✅':'');
     chip.onclick=()=>{ selectedDayIndex=i; render(); };
     dayChipsEl.appendChild(chip);
   });
@@ -69,24 +67,24 @@ function renderFocusDay(s, idx){
   focusCardEl.innerHTML=`
     <div class="row">
       <strong>${d.day} · ${d.title}</strong>
-      <label><input id="doneBox" type="checkbox" ${d.done?'checked':''}/> done</label>
     </div>
-    <div class="plan"><b>Date:</b> <input id="dayDate" type="date" value="${d.date||''}" style="max-width:180px;display:inline-block;margin-left:6px;padding:4px 8px" /></div>
     <div class="plan"><b>Session hint:</b> ${d.hint}</div>
-    <div class="plan"><b>Planned duration:</b> ${d.time}</div>
+    <div class="plan"><b>Template duration:</b> ${d.time}</div>
 
     <div class="grid">
+      <input id="logDate" type="date" value="${d.logDate||todayISO()}" title="Real date you trained">
       <input id="startTime" type="time" value="${d.startTime||''}" title="Log time">
       <input id="duration" type="number" min="0" placeholder="Training minutes" value="${d.duration||''}">
       <input id="knee" type="number" min="0" max="10" placeholder="Knee pain (0-10)" value="${d.knee||''}">
-      <input id="actual" type="text" placeholder="What you actually did (short)" value="${d.actual||''}">
+      <label style="display:flex;gap:8px;align-items:center"><input id="doneBox" type="checkbox" ${d.done?'checked':''}/> done</label>
     </div>
-    <textarea id="note" class="note" placeholder="Daily log details: drills, feel, wins, pain notes, changes">${d.note||''}</textarea>
+    <input id="actual" type="text" placeholder="What you actually did (short)" value="${d.actual||''}" style="margin-top:8px">
+    <textarea id="note" class="note" placeholder="Daily log details">${d.note||''}</textarea>
   `;
 
   const update=(key,val)=>{ s.days[idx][key]=val; save(s); stats(s); renderHistory(); renderDayPicker(s); };
   document.getElementById('doneBox').onchange=e=>update('done',e.target.checked);
-  document.getElementById('dayDate').oninput=e=>update('date',e.target.value);
+  document.getElementById('logDate').oninput=e=>update('logDate',e.target.value);
   document.getElementById('startTime').oninput=e=>update('startTime',e.target.value);
   document.getElementById('duration').oninput=e=>update('duration',e.target.value);
   document.getElementById('knee').oninput=e=>update('knee',e.target.value);
@@ -97,21 +95,16 @@ function renderFocusDay(s, idx){
 function bindMeta(s){
   [['weekOf'],['sleep','sleep'],['soreness','soreness'],['stress','stress'],['bestJump','bestJump']].forEach(([id,mk])=>{
     const el=document.getElementById(id); el.value=id==='weekOf'?s.weekOf:(s.meta[mk]||'');
-    el.oninput=()=>{
-      if(id==='weekOf'){ s.weekOf=el.value; s.days.forEach((d,i)=>d.date=plusDays(s.weekOf,i)); }
-      else s.meta[mk]=el.value;
-      save(s); render();
-    };
+    el.oninput=()=>{ if(id==='weekOf') s.weekOf=el.value; else s.meta[mk]=el.value; save(s); renderHistory(); };
   });
 }
 
 function bindActions(){
   document.getElementById('todayBtn').onclick=()=>{
     const s=load();
-    const today=new Date().toISOString().slice(0,10);
-    const i=s.days.findIndex(d=>d.date===today);
-    if(i>=0){ selectedDayIndex=i; render(); }
-    else alert('Today is outside the selected week.');
+    const i=s.days.findIndex(d=>d.logDate===todayISO());
+    selectedDayIndex=i>=0?i:0;
+    render();
   };
 
   document.getElementById('reset').onclick=()=>{localStorage.removeItem(KEY); selectedDayIndex=0; render();};
@@ -134,7 +127,7 @@ function switchTab(tab){
 
 function archiveCurrentWeek(){
   const cur=clone(load());
-  const hist=loadHist().filter(w=>w.weekOf!==cur.weekOf);
+  const hist=loadHist();
   hist.unshift({...cur, archivedAt:new Date().toISOString()});
   saveHist(hist);
   alert(`Saved week ${cur.weekOf} to history.`);
@@ -148,7 +141,7 @@ function importWeekFile(e){
     try{
       const data=JSON.parse(reader.result);
       if(!data.weekOf || !Array.isArray(data.days)) throw new Error('Bad file format');
-      const hist=loadHist().filter(w=>w.weekOf!==data.weekOf);
+      const hist=loadHist();
       hist.unshift({...data, importedAt:new Date().toISOString()});
       saveHist(hist);
       alert(`Imported week ${data.weekOf} into history.`);
@@ -162,7 +155,7 @@ function importWeekFile(e){
 function renderHistory(){
   const current=clone(load());
   const hist=loadHist();
-  const all=[current,...hist.filter(w=>w.weekOf!==current.weekOf)];
+  const all=[current,...hist];
 
   const dailyMins=[]; const weeklyCompletion=[];
   all.forEach(w=>{
@@ -178,10 +171,15 @@ function renderHistory(){
   document.getElementById('sumMonthlyWorkouts').textContent=months[0]?.[1]??0;
 
   const sel=document.getElementById('weekSelect'); const existing=sel.value; sel.innerHTML='';
-  all.sort((a,b)=>a.weekOf<b.weekOf?1:-1).forEach(w=>{ const o=document.createElement('option'); o.value=w.weekOf; o.textContent=w.weekOf+(w===current?' (current)':''); sel.appendChild(o); });
-  sel.value=[...sel.options].some(o=>o.value===existing)?existing:(sel.options[0]?.value||'');
-  sel.onchange=()=>renderWeekDetails(all.find(w=>w.weekOf===sel.value));
-  renderWeekDetails(all.find(w=>w.weekOf===sel.value));
+  all.sort((a,b)=>new Date((b.archivedAt||'')||b.weekOf)-new Date((a.archivedAt||'')||a.weekOf)).forEach((w,i)=>{
+    const o=document.createElement('option');
+    o.value=String(i);
+    o.textContent=`${w.weekOf}${i===0?' (current)':''}`;
+    sel.appendChild(o);
+  });
+  sel.value=[...sel.options].some(o=>o.value===existing)?existing:(sel.options[0]?.value||'0');
+  sel.onchange=()=>renderWeekDetails(all[Number(sel.value)]);
+  renderWeekDetails(all[Number(sel.value||0)]);
 
   const monthRows=months.map(([m,c])=>`<tr><td>${m}</td><td>${c}</td></tr>`).join('')||'<tr><td colspan="2">No history yet</td></tr>';
   document.getElementById('monthTable').innerHTML=`<h3>Monthly Summary</h3><table><thead><tr><th>Month</th><th>Completed workouts</th></tr></thead><tbody>${monthRows}</tbody></table>`;
@@ -190,12 +188,11 @@ function renderHistory(){
 function renderWeekDetails(w){
   const wrap=document.getElementById('weekDetails');
   if(!w){wrap.innerHTML='<h3>Week Details</h3><p>No week selected.</p>';return;}
-  const rows=w.days.map(d=>`<tr><td>${d.day}</td><td>${d.date||''}</td><td>${d.title||''}</td><td>${d.done?'✅':'—'}</td><td>${d.startTime||''}</td><td>${d.duration||''}</td><td>${d.knee||''}</td><td>${d.actual||''}</td><td>${d.note||''}</td></tr>`).join('');
-  wrap.innerHTML=`<h3>Week Details: ${w.weekOf}</h3><table><thead><tr><th>Day</th><th>Date</th><th>Session</th><th>Done</th><th>Log Time</th><th>Minutes</th><th>Knee</th><th>Actual Work</th><th>Daily Log</th></tr></thead><tbody>${rows}</tbody></table>`;
+  const rows=w.days.map(d=>`<tr><td>${d.day}</td><td>${d.logDate||''}</td><td>${d.title||''}</td><td>${d.done?'✅':'—'}</td><td>${d.startTime||''}</td><td>${d.duration||''}</td><td>${d.knee||''}</td><td>${d.actual||''}</td><td>${d.note||''}</td></tr>`).join('');
+  wrap.innerHTML=`<h3>Week Details: ${w.weekOf}</h3><table><thead><tr><th>Template Day</th><th>Real Date</th><th>Session</th><th>Done</th><th>Log Time</th><th>Minutes</th><th>Knee</th><th>Actual Work</th><th>Daily Log</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function stats(s){ completionEl.textContent=`${Math.round((s.days.filter(d=>d.done).length/7)*100)}% complete`; }
-
 function downloadJson(data, filename){ const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=filename; a.click(); }
 
 render();

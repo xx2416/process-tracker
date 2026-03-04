@@ -12,7 +12,7 @@ input,textarea,select{width:100%;padding:10px;border:1px solid var(--line);borde
 .picker-row{display:flex;gap:10px;align-items:end}
 .picker-row label{flex:1}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.chip{padding:8px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer}
+.chip{padding:8px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;min-width:48px;text-align:center}
 .chip.active{background:#111;color:#fff;border-color:#111}
 .day{padding:14px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
