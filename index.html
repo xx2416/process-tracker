@@ -11,7 +11,7 @@
 <body>
   <main class="app">
     <header>
-      <h1>Workout Week</h1>
+      <h1>Workout Week · PG/Knee/Vertical</h1>
       <div class="topline">
         <label>Week of <input id="weekOf" type="date" /></label>
         <span id="completion">0% complete</span>
@@ -23,7 +23,17 @@
     </header>
 
     <section id="dailyView">
-      <section id="days" class="days"></section>
+      <section class="day-picker card">
+        <div class="picker-row">
+          <button id="todayBtn" class="ghost">Jump to Today</button>
+          <label>Pick training day
+            <select id="daySelect"></select>
+          </label>
+        </div>
+        <div id="dayChips" class="chips"></div>
+      </section>
+
+      <section id="focusCard" class="day card"></section>
 
       <section class="meta">
         <input id="sleep" type="number" step="0.1" min="0" max="24" placeholder="Sleep avg (hrs)" />
