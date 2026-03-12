@@ -1,0 +1,189 @@
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 1297, in <module>
+    test(
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 1252, in test
+    with ServerClass(addr, HandlerClass) as httpd:
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 452, in __init__
+    self.server_bind()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 1295, in server_bind
+    return super().server_bind()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 138, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 466, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 48] Address already in use
+::ffff:127.0.0.1 - - [13/Feb/2026 13:59:15] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:06:39] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:06:40] "GET /styles.css HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:06:40] "GET /manifest.json HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:06:40] "GET /app.js HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:07:16] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:07:16] "GET /manifest.json HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:07:16] "GET /styles.css HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:07:16] "GET /app.js HTTP/1.1" 200 -
+----------------------------------------
+Exception occurred during processing of request from ('::ffff:192.168.0.150', 62791, 0, 0)
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 683, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 660, in __init__
+    super().__init__(*args, **kwargs)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 747, in __init__
+    self.handle()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 434, in handle
+    self.handle_one_request()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 402, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [Errno 54] Connection reset by peer
+----------------------------------------
+::ffff:192.168.0.150 - - [13/Feb/2026 14:59:12] "GET / HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:59:12] "GET /manifest.json HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:59:12] "GET /app.js HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 14:59:12] "GET /styles.css HTTP/1.1" 304 -
+----------------------------------------
+Exception occurred during processing of request from ('::ffff:192.168.0.150', 63138, 0, 0)
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 683, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 660, in __init__
+    super().__init__(*args, **kwargs)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 747, in __init__
+    self.handle()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 434, in handle
+    self.handle_one_request()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 402, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [Errno 54] Connection reset by peer
+----------------------------------------
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:13] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:13] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:13] "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:15] "GET /styles.css HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:15] "GET /app.js HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:23] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:23] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:23] "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:23] "GET /apple-touch-icon.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:23] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:23] "GET /favicon.ico HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:26] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:26] "GET /apple-touch-icon-120x120-precomposed.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:26] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:26] "GET /apple-touch-icon-120x120.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:27] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:27] "GET /apple-touch-icon.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:27] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:27] "GET /apple-touch-icon.png HTTP/1.1" 404 -
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('::ffff:192.168.0.150', 62519, 0, 0)
+Exception occurred during processing of request from ('::ffff:192.168.0.150', 62520, 0, 0)
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 683, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 660, in __init__
+    super().__init__(*args, **kwargs)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 747, in __init__
+    self.handle()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 434, in handle
+    self.handle_one_request()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 402, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 683, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 660, in __init__
+    super().__init__(*args, **kwargs)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 747, in __init__
+    self.handle()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 434, in handle
+    self.handle_one_request()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 402, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [Errno 54] Connection reset by peer
+ConnectionResetError: [Errno 54] Connection reset by peer
+----------------------------------------
+----------------------------------------
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:41] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:42] "GET /styles.css HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:42] "GET /app.js HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 15:56:42] "GET /manifest.json HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 16:44:13] "GET / HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 16:44:14] "GET /manifest.json HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 16:44:14] "GET /app.js HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 16:44:14] "GET /styles.css HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 16:44:14] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 16:44:14] "GET /styles.css HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 16:44:14] "GET /app.js HTTP/1.1" 304 -
+----------------------------------------
+Exception occurred during processing of request from ('::ffff:192.168.0.150', 63013, 0, 0)
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 683, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 360, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 660, in __init__
+    super().__init__(*args, **kwargs)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 747, in __init__
+    self.handle()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 434, in handle
+    self.handle_one_request()
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py", line 402, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socket.py", line 704, in readinto
+    return self._sock.recv_into(b)
+ConnectionResetError: [Errno 54] Connection reset by peer
+----------------------------------------
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:22] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:22] "GET /styles.css HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:22] "GET /app.js HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:23] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:23] "GET /manifest.json HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:51] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:51] "GET /apple-touch-icon-precomposed.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:51] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:51] "GET /apple-touch-icon.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:51] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 17:02:51] "GET /favicon.ico HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:00] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:00] "GET /apple-touch-icon-120x120-precomposed.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:00] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:00] "GET /apple-touch-icon-120x120.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:00] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:00] "GET /apple-touch-icon.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:00] code 404, message File not found
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:00] "GET /apple-touch-icon.png HTTP/1.1" 404 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:12] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:12] "GET /styles.css HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:12] "GET /manifest.json HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:03:12] "GET /app.js HTTP/1.1" 200 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:30:23] "GET / HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:30:23] "GET /styles.css HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:30:23] "GET /manifest.json HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:30:23] "GET /app.js HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:42:07] "GET /styles.css HTTP/1.1" 304 -
+::ffff:192.168.0.150 - - [13/Feb/2026 17:42:07] "GET /app.js HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [14/Feb/2026 10:38:41] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.32 - - [14/Feb/2026 10:49:24] "GET / HTTP/1.1" 200 -
+::ffff:192.168.0.32 - - [14/Feb/2026 10:49:24] "GET /styles.css HTTP/1.1" 304 -
+::ffff:192.168.0.32 - - [14/Feb/2026 10:49:24] "GET /app.js HTTP/1.1" 304 -

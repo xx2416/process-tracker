@@ -19,6 +19,25 @@ const focusCardEl=document.getElementById('focusCard');
 
 const todayISO=()=>new Date().toISOString().slice(0,10);
 
+const INSPO_QUOTES=[
+  {
+    quote:'“Great things come from daily discipline.”',
+    note:'Mamba-inspired reminder: consistency beats motivation.'
+  },
+  {
+    quote:'“Focus on one rep, then the next rep.”',
+    note:'Win the small details: footwork, balance, clean finish.'
+  },
+  {
+    quote:'“Pressure is a privilege — prepare for it.”',
+    note:'Train calm under fatigue so game speed feels familiar.'
+  },
+  {
+    quote:'“No shortcuts. Just standards.”',
+    note:'Protect your knee, own your mechanics, stack quality days.'
+  }
+];
+
 const blank=()=>({
   weekOf:todayISO(),
   days:PLAN.map(p=>({...p,done:false,logDate:todayISO(),startTime:'',duration:'',knee:'',actual:'',note:''})),
@@ -35,15 +54,27 @@ const clone=(x)=>JSON.parse(JSON.stringify(x));
 
 function render(){
   const s=load();
-  s.days.forEach(d=>{ if(!d.logDate) d.logDate=todayISO(); });
+  // Always default day log date to today when app opens/renders.
+  s.days.forEach(d=>{ d.logDate=todayISO(); });
   save(s);
 
+  renderInspo();
   renderDayPicker(s);
   renderFocusDay(s, selectedDayIndex);
   bindMeta(s);
   bindActions();
   stats(s);
   renderHistory();
+}
+
+function renderInspo(){
+  const quoteEl=document.getElementById('inspoQuote');
+  const noteEl=document.getElementById('inspoNote');
+  if(!quoteEl||!noteEl) return;
+  const daySeed=new Date().getDate()%INSPO_QUOTES.length;
+  const pick=INSPO_QUOTES[daySeed];
+  quoteEl.textContent=pick.quote;
+  noteEl.textContent=pick.note;
 }
 
 function renderDayPicker(s){
