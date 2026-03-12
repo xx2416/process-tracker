@@ -11,6 +11,7 @@ const PLAN=[
 const KEY='workout-minimal-v6';
 const HIST_KEY='workout-history-v1';
 const DAY_HIST_KEY='workout-day-history-v1';
+const INSPO_KEY='workout-inspo-v1';
 let selectedDayIndex=0;
 
 const completionEl=document.getElementById('completion');
@@ -20,22 +21,14 @@ const focusCardEl=document.getElementById('focusCard');
 const todayISO=()=>new Date().toISOString().slice(0,10);
 
 const INSPO_QUOTES=[
-  {
-    quote:'“Great things come from daily discipline.”',
-    note:'Mamba-inspired reminder: consistency beats motivation.'
-  },
-  {
-    quote:'“Focus on one rep, then the next rep.”',
-    note:'Win the small details: footwork, balance, clean finish.'
-  },
-  {
-    quote:'“Pressure is a privilege — prepare for it.”',
-    note:'Train calm under fatigue so game speed feels familiar.'
-  },
-  {
-    quote:'“No shortcuts. Just standards.”',
-    note:'Protect your knee, own your mechanics, stack quality days.'
-  }
+  '“Everything negative — pressure, challenges — is all an opportunity for me to rise.”',
+  '“The most important thing is to try and inspire people so they can be great in whatever they want to do.”',
+  '“Discipline compounds — one clean day at a time.”',
+  '“Stay patient with progress, ruthless with standards.”',
+  '“Small details decide big outcomes.”',
+  '“Consistency beats intensity that only shows up sometimes.”',
+  '“Do today’s work so tomorrow feels lighter.”',
+  '“You don’t need perfect conditions, just honest effort.”'
 ];
 
 const blank=()=>({
@@ -59,6 +52,7 @@ function render(){
   save(s);
 
   renderInspo();
+  updateInspoVisibility('daily');
   renderDayPicker(s);
   renderFocusDay(s, selectedDayIndex);
   bindMeta(s);
@@ -69,12 +63,25 @@ function render(){
 
 function renderInspo(){
   const quoteEl=document.getElementById('inspoQuote');
-  const noteEl=document.getElementById('inspoNote');
-  if(!quoteEl||!noteEl) return;
-  const daySeed=new Date().getDate()%INSPO_QUOTES.length;
-  const pick=INSPO_QUOTES[daySeed];
-  quoteEl.textContent=pick.quote;
-  noteEl.textContent=pick.note;
+  if(!quoteEl) return;
+
+  const today=todayISO();
+  let state=null;
+  try{ state=JSON.parse(localStorage.getItem(INSPO_KEY)||'null'); }catch{}
+
+  if(!state || state.date!==today || !state.quote){
+    const quote=INSPO_QUOTES[Math.floor(Math.random()*INSPO_QUOTES.length)];
+    state={date:today,quote};
+    localStorage.setItem(INSPO_KEY, JSON.stringify(state));
+  }
+
+  quoteEl.textContent=state.quote;
+}
+
+function updateInspoVisibility(tab){
+  const card=document.getElementById('inspoCard');
+  if(!card) return;
+  card.classList.toggle('hidden', tab==='history');
 }
 
 function renderDayPicker(s){
@@ -182,6 +189,7 @@ function switchTab(tab){
   const tHist=document.getElementById('tabHistory');
   if(tab==='history'){daily.classList.add('hidden'); history.classList.remove('hidden'); tDaily.classList.add('ghost'); tDaily.classList.remove('active'); tHist.classList.add('active'); tHist.classList.remove('ghost');}
   else {history.classList.add('hidden'); daily.classList.remove('hidden'); tHist.classList.add('ghost'); tHist.classList.remove('active'); tDaily.classList.add('active'); tDaily.classList.remove('ghost');}
+  updateInspoVisibility(tab);
 }
 
 function archiveCurrentWeek(){
