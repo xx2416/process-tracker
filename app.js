@@ -54,8 +54,8 @@ const clone=(x)=>JSON.parse(JSON.stringify(x));
 
 function render(){
   const s=load();
-  // Always default day log date to today when app opens/renders.
-  s.days.forEach(d=>{ d.logDate=todayISO(); });
+  // Default to today only when missing; keep user-entered dates intact.
+  s.days.forEach(d=>{ if(!d.logDate) d.logDate=todayISO(); });
   save(s);
 
   renderInspo();
