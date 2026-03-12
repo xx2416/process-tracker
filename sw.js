@@ -1,5 +1,5 @@
-const CACHE = 'workout-tracker-v9';
-const ASSETS = ['./', './index.html', './styles.css', './app.js', './manifest.json'];
+const CACHE = 'workout-tracker-v10';
+const ASSETS = ['./', './index.html', './styles.css?v=10', './app.js?v=10', './manifest.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
