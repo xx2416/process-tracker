@@ -3,11 +3,12 @@
 body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;background:radial-gradient(circle at top right,#efe6ff 0%,#e8f0ff 35%,#f7f9ff 100%);color:var(--text)}
 .app{max-width:900px;margin:24px auto;padding:0 14px}
 header h1{margin:0 0 6px;font-size:28px;color:#101a44}
-.tagline{margin:0 0 10px;color:#4b56a0;font-weight:700}
+.tagline{margin:10px 2px 0;color:#5a63ad;font-weight:700;font-size:15px}
 .topline{display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);margin-bottom:10px}
-.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tabs{display:flex;gap:8px;margin-bottom:2px}
 input,textarea,button,select{font:inherit}
 input,textarea,select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}
+input[type="date"],input[type="time"]{min-height:44px;line-height:1.2}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:0 6px 20px rgba(41,93,197,.08)}
 .inspo{margin-top:10px;margin-bottom:10px;background:linear-gradient(120deg,var(--purple),var(--blue));color:#fff;border:none;padding:14px}
 .inspo small{display:block;color:#f3e8ff;font-weight:700;letter-spacing:.2px}
@@ -18,7 +19,9 @@ input,textarea,select{width:100%;padding:10px;border:1px solid var(--line);borde
 .day{padding:14px}
 .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .plan{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.45}
-.date-done-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin-top:12px}
+.date-done-row{display:flex;gap:10px;align-items:end;flex-wrap:wrap;margin-top:12px}
+.date-done-row .field{flex:1 1 240px}
+.date-done-row .done-row{height:44px}
 .field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
 .field{display:flex;flex-direction:column;gap:6px}
 .field span{font-size:13px;color:#34508d;font-weight:700}
@@ -39,12 +42,13 @@ button.ghost{background:#fff;color:#3154eb;border-color:#b9c7ff}
 button.active{background:linear-gradient(180deg,var(--gold),#f97316);color:#fff;border-color:#fb923c}
 .hidden{display:none}
 @media (max-width:620px){
-  .date-done-row,.field-grid,.meta,.summary3{grid-template-columns:1fr}
-  .topline,.picker-row{flex-direction:column;align-items:flex-start}
+  .field-grid,.meta,.summary3{grid-template-columns:1fr}
+  .topline,.picker-row,.date-done-row{flex-direction:column;align-items:flex-start}
   .day{padding:12px}
   input,textarea,select{font-size:17px}
   button{font-size:16px;padding:10px 12px}
   .plan{font-size:15px}
+  .date-done-row .field,.date-done-row .done-row{width:100%}
 
   .week-details{padding:8px}
   .week-details table{min-width:700px}

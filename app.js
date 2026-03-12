@@ -33,7 +33,7 @@ const INSPO_QUOTES=[
 
 const blank=()=>({
   weekOf:todayISO(),
-  days:PLAN.map(p=>({...p,done:false,logDate:todayISO(),startTime:'',duration:'',knee:'',actual:'',note:''})),
+  days:PLAN.map(p=>({...p,done:false,logDate:todayISO(),startTime:'',duration:'',fastestSprint:'',knee:'',actual:'',note:''})),
   meta:{sleep:'',soreness:'',stress:'',bestJump:''}
 });
 
@@ -115,6 +115,7 @@ function renderFocusDay(s, idx){
     <div class="field-grid">
       <label class="field"><span>Log time</span><input id="startTime" type="time" value="${d.startTime||''}" title="Log time"></label>
       <label class="field"><span>Training minutes</span><input id="duration" type="number" min="0" placeholder="e.g. 75" value="${d.duration||''}"></label>
+      <label class="field"><span>Fastest sprint speed</span><input id="fastestSprint" type="text" placeholder="e.g. 7.8 m/s or 3.95s/30m" value="${d.fastestSprint||''}"></label>
       <label class="field"><span>Knee pain (0–10)</span><input id="knee" type="number" min="0" max="10" placeholder="0-10" value="${d.knee||''}"></label>
     </div>
 
@@ -127,6 +128,7 @@ function renderFocusDay(s, idx){
   document.getElementById('logDate').oninput=e=>update('logDate',e.target.value);
   document.getElementById('startTime').oninput=e=>update('startTime',e.target.value);
   document.getElementById('duration').oninput=e=>update('duration',e.target.value);
+  document.getElementById('fastestSprint').oninput=e=>update('fastestSprint',e.target.value);
   document.getElementById('knee').oninput=e=>update('knee',e.target.value);
   document.getElementById('actual').oninput=e=>update('actual',e.target.value);
   document.getElementById('note').oninput=e=>update('note',e.target.value);
@@ -159,6 +161,7 @@ function saveCurrentDayToHistory(){
     startTime: d.startTime || '',
     duration: d.duration || '',
     knee: d.knee || '',
+    fastestSprint: d.fastestSprint || '',
     actual: d.actual || '',
     note: d.note || '',
     savedAt: new Date().toISOString()
@@ -270,8 +273,8 @@ function renderHistory(){
 function renderWeekDetails(w){
   const wrap=document.getElementById('weekDetails');
   if(!w){wrap.innerHTML='<h3>Week Details</h3><p>No week selected.</p>';return;}
-  const rows=w.days.map(d=>`<tr><td>${d.day}</td><td>${d.logDate||''}</td><td>${d.title||''}</td><td>${d.done?'✅':'—'}</td><td>${d.startTime||''}</td><td>${d.duration||''}</td><td>${d.knee||''}</td><td>${d.actual||''}</td><td>${d.note||''}</td></tr>`).join('');
-  wrap.innerHTML=`<h3>Week Details: ${w.weekOf}</h3><table><thead><tr><th>Template Day</th><th>Real Date</th><th>Session</th><th>Done</th><th>Log Time</th><th>Minutes</th><th>Knee</th><th>Actual Work</th><th>Daily Log</th></tr></thead><tbody>${rows}</tbody></table>`;
+  const rows=w.days.map(d=>`<tr><td>${d.day}</td><td>${d.logDate||''}</td><td>${d.title||''}</td><td>${d.done?'✅':'—'}</td><td>${d.startTime||''}</td><td>${d.duration||''}</td><td>${d.fastestSprint||''}</td><td>${d.knee||''}</td><td>${d.actual||''}</td><td>${d.note||''}</td></tr>`).join('');
+  wrap.innerHTML=`<h3>Week Details: ${w.weekOf}</h3><table><thead><tr><th>Template Day</th><th>Real Date</th><th>Session</th><th>Done</th><th>Log Time</th><th>Minutes</th><th>Fastest Sprint</th><th>Knee</th><th>Actual Work</th><th>Daily Log</th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function stats(s){ completionEl.textContent=`${Math.round((s.days.filter(d=>d.done).length/7)*100)}% complete`; }
