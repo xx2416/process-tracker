@@ -23,11 +23,6 @@
       </div>
     </header>
 
-    <section class="inspo card" id="inspoCard">
-      <small>Daily inspiration</small>
-      <strong id="inspoQuote">Loading inspiration...</strong>
-    </section>
-
     <section id="dailyView">
       <section class="day-picker card">
         <div class="picker-row">
@@ -38,6 +33,11 @@
       </section>
 
       <section id="focusCard" class="day card"></section>
+
+      <section class="inspo card hidden" id="inspoCard">
+        <small>Daily inspiration</small>
+        <strong id="inspoQuote">Loading inspiration...</strong>
+      </section>
 
       <section class="meta">
         <input id="sleep" type="number" step="0.1" min="0" max="24" placeholder="Sleep avg (hrs)" />

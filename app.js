@@ -72,10 +72,10 @@ function renderInspo(){
   if(!state || state.date!==today || !state.quote){
     const quote=INSPO_QUOTES[Math.floor(Math.random()*INSPO_QUOTES.length)];
     state={date:today,quote};
-    localStorage.setItem(INSPO_KEY, JSON.stringify(state));
+    try{ localStorage.setItem(INSPO_KEY, JSON.stringify(state)); }catch{}
   }
 
-  quoteEl.textContent=state.quote;
+  quoteEl.textContent=state?.quote || INSPO_QUOTES[0];
 }
 
 function updateInspoVisibility(tab){
