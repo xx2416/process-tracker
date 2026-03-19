@@ -47,8 +47,10 @@ const clone=(x)=>JSON.parse(JSON.stringify(x));
 
 function render(){
   const s=load();
-  // Default to today only when missing; keep user-entered dates intact.
-  s.days.forEach(d=>{ if(!d.logDate) d.logDate=todayISO(); });
+  // On each open/refresh, snap view to current week + current date.
+  const today=todayISO();
+  s.weekOf=isoWeekStart(today);
+  s.days.forEach(d=>{ d.logDate=today; });
   save(s);
 
   renderInspo();
